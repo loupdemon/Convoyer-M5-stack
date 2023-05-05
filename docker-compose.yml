@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dolibarr
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    image: tuxgasy/dolibarr
+    container_name: dolibarr
+    environment:
+      DOLI_DB_HOST: mariadb
+      DOLI_DB_USER: root
+      DOLI_DB_PASSWORD: root
+      DOLI_DB_NAME: dolibarr
+      DOLI_ADMIN_LOGIN: admin
+      DOLI_ADMIN_PASSWORD: admin
+      DOLI_URL_ROOT: 'http://0.0.0.0'
+      PHP_INI_DATE_TIMEZONE: 'Europe/Paris'
+      PHP_INI_MEMORY_LIMIT: 256M
+    ports:
+      - "80:80"
+    links:
+      - mariadb
+    volumes:
+      -  ./var/www/documents:/var/www/documents
+      -  ./var/www/html/custom:/var/www/html/custom
+#      -  web_host:/var/www/html/custom:rw
+volumes:
+  db_data:
+  web_host:

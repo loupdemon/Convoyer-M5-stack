@@ -1,0 +1,7 @@
+.idea/
+www/
+db/
+cmake-build-debug
+cmake-build-m5stack-core-esp32
+cmake-build-d1_mini/
+.pio
